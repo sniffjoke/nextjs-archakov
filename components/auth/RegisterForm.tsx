@@ -1,17 +1,16 @@
 import React from "react";
 import styles from "./Auth.module.scss";
 import {Button, Form, Input, notification} from "antd";
-import {LoginFormDTO} from "@/api/dto/auth.dto";
+import {LoginFormDTO, RegisterFormDTO} from "@/api/dto/auth.dto";
 
 import * as Api from "@/api"
 import {setCookie} from "nookies";
 
-export const LoginForm: React.FC = () => {
-    const onSubmit = async (values: LoginFormDTO) => {
+export const RegisterForm: React.FC = () => {
+    const onSubmit = async (values: RegisterFormDTO) => {
 
         try {
-            const {token} = await Api.auth.login(values)
-            console.log(token)
+            const {token} = await Api.auth.register(values)
 
             notification.success({
                 message: 'Успешно!',
@@ -26,7 +25,7 @@ export const LoginForm: React.FC = () => {
             location.href = "/dashboard"
 
         } catch (err) {
-            console.warn('LoginForm', err)
+            console.warn('RegisterForm', err)
 
             notification.error({
                 message: "Ошибка!",
@@ -46,6 +45,18 @@ export const LoginForm: React.FC = () => {
                 }}
                 onFinish={onSubmit}
             >
+                <Form.Item
+                    label={'Полное имя'}
+                    name={'fullName'}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Укажите полное имя'
+                        }
+                    ]}
+                >
+                    <Input/>
+                </Form.Item>
                 <Form.Item
                     label={'E-Mail'}
                     name={'email'}
@@ -77,7 +88,7 @@ export const LoginForm: React.FC = () => {
                     }}
                 >
                     <Button type={'primary'} htmlType={'submit'}>
-                        Войти
+                        Регистрация
                     </Button>
                 </Form.Item>
             </Form>
