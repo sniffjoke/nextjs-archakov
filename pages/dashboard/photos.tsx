@@ -2,31 +2,36 @@ import React from "react";
 import {GetServerSidePropsContext, NextPage} from "next";
 import {checkAuth} from "@/utils/checkAuth";
 import {Layout} from "@/layouts/Layout";
+import styles from "@/styles/Home.module.scss"
+import {Menu} from "antd";
+import {useRouter} from "next/router";
+import {DeleteOutlined, FileImageOutlined, FileOutlined} from "@ant-design/icons";
+import {UploadButton} from "@/components/UploadButton";
 
 import * as Api from "@/api"
 import {FileItem} from "@/api/dto/files.dto";
 import {FileList} from "@/components/FileList";
 import DashboardLayout from "@/layouts/DashboardLayout";
-import {FileActions} from "@/components/FileActions";
 
 interface Props {
     items: FileItem[]
 }
 
 
-const DashboardPage: NextPage<Props> = ({items}) => {
+const DashboardPhotos: NextPage<Props> = ({items}) => {
+    const router = useRouter()
+    const selectedMenu = router.pathname
 
     return (
         <DashboardLayout>
-            <FileActions isActive/>
             <FileList items={items} />
         </DashboardLayout>
     )
 }
 
 // @ts-ignore
-DashboardPage.getLayout = (page: React.ReactNode) => {
-    return <Layout title={'Dashboard / Главная'}>{page}</Layout>
+DashboardPhotos.getLayout = (page: React.ReactNode) => {
+    return <Layout title={'Dashboard / Фотографии'}>{page}</Layout>
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -38,7 +43,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
 
     try {
-        const items = await Api.files.getAll()
+        const items = await Api.files.getAll('photos')
 
         return {
             props: {
@@ -53,4 +58,4 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
 }
 
-export default DashboardPage
+export default DashboardPhotos

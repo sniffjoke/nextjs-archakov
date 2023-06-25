@@ -11,5 +11,6 @@ interface Props extends AppProps {
 export default function App({ Component, pageProps }: Props) {
   const getLayout = Component.getLayout || ((page: React.ReactNode) => page);
 
+  // return getLayout(<Component {...pageProps} />);
   return getLayout(<Component {...pageProps} />);
 }
