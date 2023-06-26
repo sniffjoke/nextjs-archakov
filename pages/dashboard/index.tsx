@@ -5,9 +5,8 @@ import {Layout} from "@/layouts/Layout";
 
 import * as Api from "@/api"
 import {FileItem} from "@/api/dto/files.dto";
-import {FileList} from "@/components/FileList";
 import DashboardLayout from "@/layouts/DashboardLayout";
-import {FileActions} from "@/components/FileActions";
+import {Files} from "@/modules/Files";
 
 interface Props {
     items: FileItem[]
@@ -18,8 +17,8 @@ const DashboardPage: NextPage<Props> = ({items}) => {
 
     return (
         <DashboardLayout>
-            <FileActions isActive/>
-            <FileList items={items} />
+            {/*<FileActions isActive/>*/}
+            <Files items={items} withActions/>
         </DashboardLayout>
     )
 }
